@@ -11,13 +11,10 @@ namespace RomanNumerals
             {
                 {1, "I"},
                 {5, "V"},
-                {9, "IX"},
                 {10, "X"},
                 {50, "L"},
-                {90, "XC"},
                 {100, "C"},
                 {500, "D"},
-                {900, "CM"},
                 {1000, "M"}
             };
 
@@ -30,7 +27,14 @@ namespace RomanNumerals
                 {
                     var quotient = number / item.Key;
 
-                    if(quotient * item.Key != item.Key && quotient * item.Key == lastKey - item.Key)
+                    if ((lastKey == 1000 || lastKey == 100 || lastKey == 10) && number != number % (lastKey - lastKey/10))
+                    {
+                        romanNumber += lookupDict[lastKey / 10];
+                        romanNumber += lookupDict[lastKey];
+                        romanNumber += Convert(number % (lastKey - lastKey / 10));
+                        break;
+                    }
+                    else if(quotient * item.Key != item.Key && quotient * item.Key == lastKey - item.Key)
                     {
                         romanNumber += lookupDict[item.Key];
                         romanNumber += lookupDict[lastKey];
