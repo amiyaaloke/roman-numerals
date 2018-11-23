@@ -26,39 +26,21 @@ namespace RomanNumerals
 
             foreach (var item in lookupDict.Reverse())
             {
-                if (number == item.Key)
+                if(number >= item.Key)
                 {
-                    romanNumber += lookupDict[item.Key];
-                    break;
-                }
-                else if(number > item.Key)
-                {
-                    if (number == lastKey - item.Key)
+                    var quotient = number / item.Key;
+
+                    if(quotient * item.Key != item.Key && quotient * item.Key == lastKey - item.Key)
                     {
                         romanNumber += lookupDict[item.Key];
                         romanNumber += lookupDict[lastKey];
                     }
-                    else if (number % item.Key == 0)
-                    {
-                        var quotient = number / item.Key;
-                        romanNumber += string.Concat(Enumerable.Repeat(lookupDict[item.Key], quotient));
-                    }
                     else
                     {
-                        var quotient = number / item.Key;
-
-                        if(quotient * item.Key != item.Key && quotient * item.Key == lastKey - item.Key)
-                        {
-                            romanNumber += lookupDict[item.Key];
-                            romanNumber += lookupDict[lastKey];
-                        }
-                        else
-                        {
-                            romanNumber += string.Concat(Enumerable.Repeat(lookupDict[item.Key], quotient));
-                        }
-
-                        romanNumber += Convert(number % item.Key);
+                        romanNumber += string.Concat(Enumerable.Repeat(lookupDict[item.Key], quotient));
                     }
+
+                    romanNumber += Convert(number % item.Key);
                     break;
                 }
 
